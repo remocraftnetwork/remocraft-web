@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+  <link rel="icon" href="../images/logo.png">
+  <meta name="description" content="Free, modern and nice web template for Minecraft server.">
+  <meta name="author" content="Astronawta">
+
+  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="../css/pages/contact.css">
+
+  <title>RemoCraft | Contacto</title>
+</head>
+<body>
+  <!--Navbar-->
+  <div class="navbar">
+    <div class="menu-mobile">
+      <a href="index.html">
+        <div class="logo">
+          <img src="../images/logo.png" alt="Server logo" class="logo-img">
+          <h3 class="server-name">RemoCraft</h3>
+        </div>
+      </a>
+
+      <div class="hamburger">
+        <i class="fa-solid fa-bars"></i>
+      </div>
+    </div>
+
+    <div class="links">
+      <a href="index.html" class="link">Inicio</a>
+      <a href="rules.html" class="link">Reglas</a>
+      <a href="admin-team.html" class="link">Equipo</a>
+      <a href="#" class="link active">Contacto</a>
+
+      <!-- Language selector -->
+      <div class="lang-switcher">
+          <button class="lang-btn" aria-expanded="false"><span class="lang-flag">🇪🇸</span> <span class="lang-text">ES</span> ▾</button>
+          <div class="lang-menu" aria-hidden="true">
+              <a href="contact.html" class="lang-link active">ES 🇪🇸</a>
+              <a href="../contact.html" class="lang-link">EN (root)</a>
+          </div>
+      </div>
+    </div>
+  </div>
+
+  <!--Header-->
+  <section id="header">
+    <div class="content">
+      <div class="info">
+        <p class="minecraft-server-ip">mc.example.com</p>
+        <h1 class="title"><span>Contacta</span> con nosotros</h1>
+      </div>
+      <p class="description">
+        ¿Tienes un problema y necesitas resolverlo? Escríbenos abajo.
+      </p>
+    </div>
+  </section>
+
+  <!--Contacts-->
+  <section id="contacts">
+    <div class="content">
+      <h2 class="section-title">Formulario de contacto</h2>
+
+      <div class="columns">
+        <form class="contact-form" action="" method="POST">
+          <input type="hidden" name="_subject" value="Message From Website">
+          <input type="hidden" name="_template" value="box">
+          <input type="hidden" name="_captcha" value="false">
+          <input type="hidden" name="_next" value="" class="location-after-submit">
+
+          <div class="row">
+            <label for="name">* Usuario (o nombre real)</label>
+            <input type="text" required id="name" name="name" placeholder="TuNombre">
+          </div>
+          <div class="row">
+            <label for="discord-name">Nombre en Discord + tag</label>
+            <input type="text" id="discord-name" name="discord-name" placeholder="Usuario#1234">
+          </div>
+          <div class="row">
+            <label for="email">* Email</label>
+            <input type="email" required id="email" name="email" placeholder="tu@email.com">
+          </div>
+          <div class="row">
+            <label for="message">* Mensaje</label>
+            <textarea required id="message" name="message" placeholder="Tengo una pregunta..."></textarea>
+          </div>
+          <div class="form-footer">
+            <p class="alert">Los campos marcados con * son obligatorios</p>
+            <button type="submit">Enviar mensaje <i class="fa-solid fa-paper-plane"></i></button>
+          </div>
+        </form>
+
+        <a href="#" class="url discord-link">
+          <div class="link">
+            <h5>Únete a nuestro discord</h5>
+            <div class="link-description">
+              <p class="description">
+                Información del servidor y comunidad.
+                <br>-----------
+                <br><span class="discord-online-users">None</span> usuarios en línea
+              </p>
+              <div class="icon">
+                <i class="fa-brands fa-discord"></i>
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!--Footer-->
+  <footer id="footer">
+    <p class="copyright">&copy; 2026 <span class="server-name-footer">RemoCraft Network</span>. Todos los derechos reservados.</p>
+    <div class="social-links">
+      <a href="#" class="link tiktok-link"><i class="fa-brands fa-tiktok"></i></a>
+      <a href="#" class="link instagram-link"><i class="fa-brands fa-square-instagram"></i></a>
+      <a href="#" class="link discord-link-footer"><i class="fa-brands fa-discord"></i></a>
+    </div>
+  </footer>
+</body>
+<script src="../js/script.js"></script>
+<script src="https://kit.fontawesome.com/cbf5ee59c8.js" crossorigin="anonymous"></script>
+</html>

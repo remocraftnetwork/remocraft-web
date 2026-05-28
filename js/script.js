@@ -395,3 +395,19 @@ const setDataFromConfigToHtml = async () => {
 }
 
 setDataFromConfigToHtml();
+
+/* Language selector toggle */
+document.addEventListener("click", (e) => {
+    const isLangBtn = e.target.closest && e.target.closest('.lang-btn');
+
+    // Close all menus first
+    document.querySelectorAll('.lang-menu').forEach(menu => menu.style.display = 'none');
+
+    if (isLangBtn) {
+        const wrapper = isLangBtn.closest('.lang-switcher');
+        const menu = wrapper.querySelector('.lang-menu');
+        const expanded = isLangBtn.getAttribute('aria-expanded') === 'true';
+        isLangBtn.setAttribute('aria-expanded', expanded ? 'false' : 'true');
+        menu.style.display = expanded ? 'none' : 'block';
+    }
+});
