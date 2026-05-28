@@ -218,7 +218,7 @@ const getMinecraftOnlinePlayer = async () => {
 
 const getUuidByUsername = async (username) => {
     try {
-        const usernameToUuidApi = `https://api.minetools.eu/uuid/${username}`;
+        const usernameToUuidApi = `https://api.mojang.com/users/profiles/minecraft/${username}`;
         let response = await fetch(usernameToUuidApi);
         let data = await response.json();
 
