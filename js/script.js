@@ -216,26 +216,50 @@ const getMinecraftOnlinePlayer = async () => {
     }
 }
 
-const defaultSkinPlaceholder = "https://minotar.net/avatar/Steve/512.png";
-
-const getSkinByUsername = async (username) => {
+const getUuidByUsername = async (username) => {
     try {
-        const playerDbUrl = `https://playerdb.co/api/player/minecraft/${username}`;
-        let response = await fetch(playerDbUrl);
+        const ashconUrl = `https://api.ashcon.app/mojang/v2/user/${username}`;
+        let response = await fetch(ashconUrl);
 
+        if (response.ok) {
+            let data = await response.json();
+            if (data && data.uuid) return data.uuid.replace(/-/g, "");
+        }
+
+        // Fallback to PlayerDB if Ashcon returns 404 or fails
+        const playerDbUrl = `https://playerdb.co/api/player/minecraft/${username}`;
+        response = await fetch(playerDbUrl);
         if (!response.ok) {
-            throw new Error(`PlayerDB fetch failed: ${response.status}`);
+            throw new Error(`UUID fetch failed: ${response.status}`);
         }
 
         let data = await response.json();
-        if (data && data.data && data.data.player && data.data.player.skin_texture) {
-            return data.data.player.skin_texture;
+        if (data && data.data && data.data.player) {
+            return data.data.player.raw_id || data.data.player.id.replace(/-/g, "");
         }
 
-        return `https://visage.surgeplay.com/${config.userSKinTypeInAdminTeam}/512/ec561538f3fd461daff5086b22154bce`;
+        return "None";
     } catch (e) {
         console.log(e);
-        return `https://visage.surgeplay.com/${config.userSKinTypeInAdminTeam}/512/ec561538f3fd461daff5086b22154bce`;
+        return "None";
+    }
+}
+
+const getSkinByUuid = async (username) => {
+    try {
+        const uuid = await getUuidByUsername(username);
+        const fallbackSkin = `https://visage.surgeplay.com/${config.userSKinTypeInAdminTeam}/512/ec561538f3fd461daff5086b22154bce`;
+
+        if (!uuid || uuid === "None") return fallbackSkin;
+
+        const skinByUuidApi = `https://visage.surgeplay.com/${config.userSKinTypeInAdminTeam}/512/${uuid}`;
+        let response = await fetch(skinByUuidApi);
+
+        if (response.status === 400) return fallbackSkin;
+        return skinByUuidApi;
+    } catch (e) {
+        console.log(e);
+        return "None";
     }
 }
 
@@ -308,43 +332,36 @@ const setDataFromConfigToHtml = async () => {
             atContent.appendChild(group);
 
             const users = config.adminTeamPage[team];
-            const placeholder = defaultSkinPlaceholder;
-            const groupUsers = group.querySelector('.users');
-            const userImages = [];
+            const fallbackSkin = `https://visage.surgeplay.com/${config.userSKinTypeInAdminTeam}/512/ec561538f3fd461daff5086b22154bce`;
+            const skinPromises = users.map(user => {
+                if (user.skinUrlOrPathToFile) return Promise.resolve(user.skinUrlOrPathToFile);
+                return getSkinByUuid(user.inGameName).then(skin => skin === "None" ? fallbackSkin : skin);
+            });
+            const skinUrls = await Promise.all(skinPromises);
 
-            users.forEach(user => {
-                const userDiv = document.createElement('div');
-                userDiv.classList.add('user');
+            for (let j = 0; j < users.length; j++) {
+                let user = users[j];
+                const group = document.querySelector("." + team + " .users");
 
+                const userDiv = document.createElement("div");
+                userDiv.classList.add("user");
+
+                let userSkin = skinUrls[j] || fallbackSkin;
                 let rankColor = config.atGroupsDefaultColors[team];
-                if (user.rankColor != "") {
+
+                if(user.rankColor != "") {
                     rankColor = user.rankColor;
                 }
 
                 const userDivSchema = `
-                    <img src="${user.skinUrlOrPathToFile || placeholder}" alt="${user.inGameName}">
+                    <img src="${userSkin}" alt="${user.inGameName}">
                     <h5 class="name">${user.inGameName}</h5>
-                    <p class="rank ${team}" style="background: ${rankColor}">${user.rank}</p>
+                    <p class="rank ${team}" style="background: ${rankColor}">${user.rank}</p>  
                 `;
 
                 userDiv.innerHTML = userDivSchema;
-                groupUsers.appendChild(userDiv);
-                userImages.push(userDiv.querySelector('img'));
-            });
-
-            const skinPromises = users.map(user => {
-                if (user.skinUrlOrPathToFile) return Promise.resolve(user.skinUrlOrPathToFile);
-                return getSkinByUsername(user.inGameName);
-            });
-
-            Promise.all(skinPromises).then(skinUrls => {
-                skinUrls.forEach((skinUrl, index) => {
-                    if (skinUrl && skinUrl !== "None") {
-                        const img = userImages[index];
-                        if (img) img.src = skinUrl;
-                    }
-                });
-            });
+                group.appendChild(userDiv);
+            }
         }
     } else if(locationPathname.includes("contact")) {
         contactForm.action = `https://formsubmit.co/${config.contactPage.email}`;
