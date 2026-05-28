@@ -7,9 +7,9 @@ If something doesn't work please contact me on discord (Astronawta#0012).
 const config = {
     serverInfo: {
         serverLogoImageFileName: "logo.png", /*This is a file name for logo in /images/ (If you upload new logo with other name, you must change this value)*/
-        serverName: "ExampleName", /*Server name*/
-        serverIp: "mc.hypixel.net", /*Server IP (if you want to add online user counter, you must have true the enable-status and enable-query of server.properties)*/
-        discordServerID: "489529070913060867" /*Your server ID (if you want to add online user counter, you must have enabled Discord server widget)*/
+        serverName: "RemoCraft", /*Server name*/
+        serverIp: "play.remocraft.com", /*Server IP / domain for Minecraft server status*/
+        discordServerID: "1249803735157309500" /*Your Discord server ID. Set this to your real server ID after enabling the Widget in Discord settings.*/
     },
 
     /*Admin-Team
@@ -39,96 +39,54 @@ const config = {
     userSKinTypeInAdminTeam: "bust", /*[full, bust, head, face, front, frontFull, skin]*/
     atGroupsDefaultColors: {
         leaders: "rgba(255, 124, 124, 0.5)",
-        developers: "rgba(230, 83, 0, 0.5)",
+        moderators: "rgba(0, 190, 10, 0.5)",
         helpers: "rgba(11, 175, 255, 0.5)",
         builders: "rgba(247, 2, 176, 0.5)",
     },
     adminTeamPage: {
         leaders: [
             {
-                inGameName: "Astronavta",
+                inGameName: "RemoCraftMC",
                 rank: "Owner",
                 skinUrlOrPathToFile: "",
                 rankColor: "rgba(255, 3, 3, 1)"
-            },
+            }
+        ],
+        moderators: [
             {
-                inGameName: "Astronavta",
-                rank: "Owner",
-                skinUrlOrPathToFile: "",
-                rankColor: "rgba(255, 3, 3, 1)"
-            },
-            {
-                inGameName: "Astronavta",
-                rank: "Manager",
-                skinUrlOrPathToFile: "",
-                rankColor: ""
-            },
-            {
-                inGameName: "Astronavta",
+                inGameName: "Zunallein",
                 rank: "Moderator",
                 skinUrlOrPathToFile: "",
                 rankColor: ""
-            }
-        ],
-        developers: [
+            },
             {
-                inGameName: "Astronavta",
-                rank: "Developer",
+                inGameName: "mojanj",
+                rank: "Moderator",
                 skinUrlOrPathToFile: "",
                 rankColor: ""
             },
             {
-                inGameName: "Astronavta",
-                rank: "Developer",
-                skinUrlOrPathToFile: "",
-                rankColor: ""
-            },
-            {
-                inGameName: "Astronavta",
-                rank: "Webmaster",
-                skinUrlOrPathToFile: "",
-                rankColor: ""
-            },
-            {
-                inGameName: "Astronavta",
-                rank: "Discord manager",
+                inGameName: "SrSpaghetti",
+                rank: "Moderator",
                 skinUrlOrPathToFile: "",
                 rankColor: ""
             }
         ],
         helpers: [
             {
-                inGameName: "Astronavta",
-                rank: "Helper++",
-                skinUrlOrPathToFile: "",
-                rankColor: ""
-            },
-            {
-                inGameName: "Astronavta",
-                rank: "Helper++",
-                skinUrlOrPathToFile: "",
-                rankColor: ""
-            },
-            {
-                inGameName: "Astronavta",
-                rank: "Helper+",
-                skinUrlOrPathToFile: "",
-                rankColor: ""
-            },
-            {
-                inGameName: "Astronavta",
-                rank: "Helper+",
-                skinUrlOrPathToFile: "",
-                rankColor: ""
-            },
-            {
-                inGameName: "Astronavta",
+                inGameName: "drex21",
                 rank: "Helper",
                 skinUrlOrPathToFile: "",
                 rankColor: ""
             },
             {
-                inGameName: "Astronavta",
+                inGameName: "Gehzt630",
+                rank: "Helper",
+                skinUrlOrPathToFile: "",
+                rankColor: ""
+            },
+            {
+                inGameName: "Nyxxie_",
                 rank: "Helper",
                 skinUrlOrPathToFile: "",
                 rankColor: ""
@@ -136,37 +94,7 @@ const config = {
         ],
         builders: [
             {
-                inGameName: "Astronavta",
-                rank: "Builder++",
-                skinUrlOrPathToFile: "",
-                rankColor: ""
-            },
-            {
-                inGameName: "Astronavta",
-                rank: "Builder++",
-                skinUrlOrPathToFile: "",
-                rankColor: ""
-            },
-            {
-                inGameName: "Astronavta",
-                rank: "Builder+",
-                skinUrlOrPathToFile: "",
-                rankColor: ""
-            },
-            {
-                inGameName: "Astronavta",
-                rank: "Builder+",
-                skinUrlOrPathToFile: "",
-                rankColor: ""
-            },
-            {
-                inGameName: "Astronavta",
-                rank: "Builder",
-                skinUrlOrPathToFile: "",
-                rankColor: ""
-            },
-            {
-                inGameName: "Astronavta",
+                inGameName: "AlconNT",
                 rank: "Builder",
                 skinUrlOrPathToFile: "",
                 rankColor: ""
@@ -243,14 +171,18 @@ const inputWithLocationAfterSubmit = document.querySelector(".location-after-sub
 const getDiscordOnlineUsers = async () => {
     try {
         const discordServerId = config.serverInfo.discordServerID;
+        if (!discordServerId || discordServerId === "YOUR_DISCORD_SERVER_ID") {
+            return "None";
+        }
 
         const apiWidgetUrl = `https://discord.com/api/guilds/${discordServerId}/widget.json`;
         let response = await fetch(apiWidgetUrl);
         let data = await response.json();
 
-        if(!data.presence_count) return "None";
-        else return (await data.presence_count);
+        if (!data || typeof data.presence_count === 'undefined') return "None";
+        return data.presence_count || "None";
     } catch (e) {
+        console.log(e);
         return "None";
     }
 }
@@ -262,6 +194,10 @@ const getMinecraftOnlinePlayer = async () => {
         const apiUrl = `https://api.mcsrvstat.us/2/${serverIp}`;
         let response = await fetch(apiUrl);
         let data = await response.json();
+
+        if (!data || !data.players || typeof data.players.online === 'undefined') {
+            return "None";
+        }
 
         return data.players.online;
     } catch (e) {
