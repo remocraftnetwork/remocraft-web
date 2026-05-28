@@ -396,18 +396,57 @@ const setDataFromConfigToHtml = async () => {
 
 setDataFromConfigToHtml();
 
-/* Language selector toggle */
-document.addEventListener("click", (e) => {
-    const isLangBtn = e.target.closest && e.target.closest('.lang-btn');
+/* Language selector toggle (accessible) */
 
-    // Close all menus first
-    document.querySelectorAll('.lang-menu').forEach(menu => menu.style.display = 'none');
+const closeAllLangMenus = () => {
+    document.querySelectorAll('.lang-menu').forEach(menu => {
+        menu.style.display = 'none';
+        menu.setAttribute('aria-hidden', 'true');
+        const wrapper = menu.closest('.lang-switcher');
+        if (wrapper) {
+            const btn = wrapper.querySelector('.lang-btn');
+            if (btn) btn.setAttribute('aria-expanded', 'false');
+        }
+    });
+}
 
-    if (isLangBtn) {
-        const wrapper = isLangBtn.closest('.lang-switcher');
+// Click handling: open/close specific menu, close others, close on outside click
+document.addEventListener('click', (e) => {
+    const btn = e.target.closest && e.target.closest('.lang-btn');
+
+    // If clicked a language button
+    if (btn) {
+        const wrapper = btn.closest('.lang-switcher');
         const menu = wrapper.querySelector('.lang-menu');
-        const expanded = isLangBtn.getAttribute('aria-expanded') === 'true';
-        isLangBtn.setAttribute('aria-expanded', expanded ? 'false' : 'true');
-        menu.style.display = expanded ? 'none' : 'block';
+        const isOpen = btn.getAttribute('aria-expanded') === 'true';
+
+        if (isOpen) {
+            // close this
+            btn.setAttribute('aria-expanded', 'false');
+            menu.style.display = 'none';
+            menu.setAttribute('aria-hidden', 'true');
+            btn.focus();
+        } else {
+            // open this, close others
+            closeAllLangMenus();
+            btn.setAttribute('aria-expanded', 'true');
+            menu.style.display = 'block';
+            menu.setAttribute('aria-hidden', 'false');
+            const firstItem = menu.querySelector('a, button, [tabindex]');
+            if (firstItem) firstItem.focus();
+        }
+        return;
+    }
+
+    // Clicked outside any lang-switcher -> close all
+    if (!e.target.closest || !e.target.closest('.lang-switcher')) {
+        closeAllLangMenus();
+    }
+});
+
+// Close menus with Escape key
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' || e.key === 'Esc') {
+        closeAllLangMenus();
     }
 });
