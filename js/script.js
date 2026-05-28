@@ -218,17 +218,27 @@ const getMinecraftOnlinePlayer = async () => {
 
 const getUuidByUsername = async (username) => {
     try {
-        const usernameToUuidApi = `https://api.ashcon.app/mojang/v2/user/${username}`;
-        let response = await fetch(usernameToUuidApi);
+        const ashconUrl = `https://api.ashcon.app/mojang/v2/user/${username}`;
+        let response = await fetch(ashconUrl);
 
+        if (response.ok) {
+            let data = await response.json();
+            if (data && data.uuid) return data.uuid.replace(/-/g, "");
+        }
+
+        // Fallback to PlayerDB if Ashcon returns 404 or fails
+        const playerDbUrl = `https://playerdb.co/api/player/minecraft/${username}`;
+        response = await fetch(playerDbUrl);
         if (!response.ok) {
             throw new Error(`UUID fetch failed: ${response.status}`);
         }
 
         let data = await response.json();
-        if (!data || !data.uuid) return "None";
+        if (data && data.data && data.data.player) {
+            return data.data.player.raw_id || data.data.player.id.replace(/-/g, "");
+        }
 
-        return data.uuid.replace(/-/g, "");
+        return "None";
     } catch (e) {
         console.log(e);
         return "None";
@@ -321,16 +331,22 @@ const setDataFromConfigToHtml = async () => {
 
             atContent.appendChild(group);
 
-            for (let j = 0; j < config.adminTeamPage[team].length; j++) {
-                let user = config.adminTeamPage[team][j];
+            const users = config.adminTeamPage[team];
+            const fallbackSkin = `https://visage.surgeplay.com/${config.userSKinTypeInAdminTeam}/512/ec561538f3fd461daff5086b22154bce`;
+            const skinPromises = users.map(user => {
+                if (user.skinUrlOrPathToFile) return Promise.resolve(user.skinUrlOrPathToFile);
+                return getSkinByUuid(user.inGameName).then(skin => skin === "None" ? fallbackSkin : skin);
+            });
+            const skinUrls = await Promise.all(skinPromises);
+
+            for (let j = 0; j < users.length; j++) {
+                let user = users[j];
                 const group = document.querySelector("." + team + " .users");
 
                 const userDiv = document.createElement("div");
                 userDiv.classList.add("user");
 
-                let userSkin = config.adminTeamPage[team][j].skinUrlOrPathToFile;
-
-                if(userSkin == "") userSkin = await getSkinByUuid(user.inGameName);
+                let userSkin = skinUrls[j] || fallbackSkin;
                 let rankColor = config.atGroupsDefaultColors[team];
 
                 if(user.rankColor != "") {
@@ -338,7 +354,7 @@ const setDataFromConfigToHtml = async () => {
                 }
 
                 const userDivSchema = `
-                    <img src="${await (userSkin)}" alt="${user.inGameName}">
+                    <img src="${userSkin}" alt="${user.inGameName}">
                     <h5 class="name">${user.inGameName}</h5>
                     <p class="rank ${team}" style="background: ${rankColor}">${user.rank}</p>  
                 `;
