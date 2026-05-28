@@ -218,11 +218,17 @@ const getMinecraftOnlinePlayer = async () => {
 
 const getUuidByUsername = async (username) => {
     try {
-        const usernameToUuidApi = `https://api.mojang.com/users/profiles/minecraft/${username}`;
+        const usernameToUuidApi = `https://api.ashcon.app/mojang/v2/user/${username}`;
         let response = await fetch(usernameToUuidApi);
-        let data = await response.json();
 
-        return data.id;
+        if (!response.ok) {
+            throw new Error(`UUID fetch failed: ${response.status}`);
+        }
+
+        let data = await response.json();
+        if (!data || !data.uuid) return "None";
+
+        return data.uuid.replace(/-/g, "");
     } catch (e) {
         console.log(e);
         return "None";
@@ -231,11 +237,16 @@ const getUuidByUsername = async (username) => {
 
 const getSkinByUuid = async (username) => {
     try {
-        const skinByUuidApi = `https://visage.surgeplay.com/${config.userSKinTypeInAdminTeam}/512/${await getUuidByUsername(username)}`;
+        const uuid = await getUuidByUsername(username);
+        const fallbackSkin = `https://visage.surgeplay.com/${config.userSKinTypeInAdminTeam}/512/ec561538f3fd461daff5086b22154bce`;
+
+        if (!uuid || uuid === "None") return fallbackSkin;
+
+        const skinByUuidApi = `https://visage.surgeplay.com/${config.userSKinTypeInAdminTeam}/512/${uuid}`;
         let response = await fetch(skinByUuidApi);
 
-        if(response.status === 400) return `https://visage.surgeplay.com/${config.userSKinTypeInAdminTeam}/512/ec561538f3fd461daff5086b22154bce`;
-        else return skinByUuidApi;
+        if (response.status === 400) return fallbackSkin;
+        return skinByUuidApi;
     } catch (e) {
         console.log(e);
         return "None";
