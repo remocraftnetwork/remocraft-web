@@ -248,7 +248,7 @@ const getUuidByUsername = async (username) => {
 const getSkinByUuid = async (username) => {
     try {
         const uuid = await getUuidByUsername(username);
-        const fallbackSkin = `https://visage.surgeplay.com/${config.userSKinTypeInAdminTeam}/512/ec561538f3fd461daff5086b22154bce`;
+        const fallbackSkin = getAssetPath(`images/skin_not_loaded.png`);
 
         if (!uuid || uuid === "None") return fallbackSkin;
 
@@ -328,39 +328,47 @@ const setDataFromConfigToHtml = async () => {
             `;
 
             group.innerHTML = groupSchema;
-
             atContent.appendChild(group);
 
             const users = config.adminTeamPage[team];
-            const fallbackSkin = `https://visage.surgeplay.com/${config.userSKinTypeInAdminTeam}/512/ec561538f3fd461daff5086b22154bce`;
-            const skinPromises = users.map(user => {
-                if (user.skinUrlOrPathToFile) return Promise.resolve(user.skinUrlOrPathToFile);
-                return getSkinByUuid(user.inGameName).then(skin => skin === "None" ? fallbackSkin : skin);
-            });
-            const skinUrls = await Promise.all(skinPromises);
+            const fallbackSkin = getAssetPath(`images/skin_not_loaded.png`);
 
             for (let j = 0; j < users.length; j++) {
                 let user = users[j];
-                const group = document.querySelector("." + team + " .users");
+                const currentGroup = group.querySelector(".users");
 
                 const userDiv = document.createElement("div");
                 userDiv.classList.add("user");
 
-                let userSkin = skinUrls[j] || fallbackSkin;
                 let rankColor = config.atGroupsDefaultColors[team];
 
                 if(user.rankColor != "") {
                     rankColor = user.rankColor;
                 }
 
+                // Generamos un ID único temporal por usuario para cambiar su skin de forma asíncrona
+                const imgId = `skin-${team}-${j}`;
+
                 const userDivSchema = `
-                    <img src="${userSkin}" alt="${user.inGameName}">
+                    <img id="${imgId}" src="${fallbackSkin}" alt="${user.inGameName}">
                     <h5 class="name">${user.inGameName}</h5>
                     <p class="rank ${team}" style="background: ${rankColor}">${user.rank}</p>  
                 `;
 
                 userDiv.innerHTML = userDivSchema;
-                group.appendChild(userDiv);
+                currentGroup.appendChild(userDiv);
+
+                // Carga asíncrona en segundo plano: no bloquea el renderizado visual de la página
+                if (user.skinUrlOrPathToFile) {
+                    document.getElementById(imgId).src = user.skinUrlOrPathToFile;
+                } else {
+                    getSkinByUuid(user.inGameName).then(skin => {
+                        const imgElement = document.getElementById(imgId);
+                        if (imgElement) {
+                            imgElement.src = skin === "None" ? fallbackSkin : skin;
+                        }
+                    });
+                }
             }
         }
     } else if(locationPathname.includes("contact")) {
