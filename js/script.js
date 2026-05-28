@@ -168,6 +168,16 @@ const minecraftOnlinePlayers = document.querySelector(".minecraft-online-players
 const contactForm = document.querySelector(".contact-form");
 const inputWithLocationAfterSubmit = document.querySelector(".location-after-submit");
 
+const assetPrefix = (() => {
+    const match = location.pathname.match(/^\/(\w{2})\//);
+    if (match && match[1] !== '') {
+        return '../';
+    }
+    return '';
+})();
+const getAssetPath = (relativePath) => `${assetPrefix}${relativePath}`;
+
+
 const getDiscordOnlineUsers = async () => {
     try {
         const discordServerId = config.serverInfo.discordServerID;
@@ -263,7 +273,7 @@ const copyIp = () => {
 const setDataFromConfigToHtml = async () => {
     /*Set config data to navbar*/
     serverName.innerHTML = config.serverInfo.serverName;
-    serverLogo.src = `images/` + config.serverInfo.serverLogoImageFileName;
+    serverLogo.src = getAssetPath(`images/${config.serverInfo.serverLogoImageFileName}`);
 
     /*Set config data to header*/
     serverIp.innerHTML = config.serverInfo.serverIp;
@@ -273,7 +283,7 @@ const setDataFromConfigToHtml = async () => {
     if(locationPathname == "/" || locationPathname.includes("index")) {
         copyIp();
         /*Set config data to header*/
-        serverLogoHeader.src = `images/` + config.serverInfo.serverLogoImageFileName;
+        serverLogoHeader.src = getAssetPath(`images/${config.serverInfo.serverLogoImageFileName}`);
         discordOnlineUsers.innerHTML = await getDiscordOnlineUsers();
         minecraftOnlinePlayers.innerHTML = await getMinecraftOnlinePlayer();
     } else if(locationPathname.includes("rules")) {
