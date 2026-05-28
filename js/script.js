@@ -247,6 +247,9 @@ const copyIp = () => {
     const copyIpButton = document.querySelector(".copy-ip");
     const copyIpAlert = document.querySelector(".ip-copied");
 
+    // Si el botón no existe en la página, no hacer nada
+    if (!copyIpButton) return;
+
     copyIpButton.addEventListener("click", () => {
         try {
             navigator.clipboard.writeText(config.serverInfo.serverIp);
