@@ -67,6 +67,7 @@
       <h2 class="section-title">Formulario de contacto</h2>
 
       <div class="columns">
+        <!-- Columna Izquierda: Formulario -->
         <form class="contact-form" action="" method="POST">
           <input type="hidden" name="_subject" value="Message From Website">
           <input type="hidden" name="_template" value="box">
@@ -95,21 +96,31 @@
           </div>
         </form>
 
-        <a href="https://discord.gg/BNHeKg7u2U" class="url discord-link" target="_blank" rel="noopener noreferrer">
-          <div class="link">
-            <h5>Únete a nuestro discord</h5>
-            <div class="link-description">
-              <p class="description">
-                Información del servidor y comunidad.
-                <br>-----------
-                <br><span class="discord-online-users">None</span> usuarios en línea
-              </p>
-              <div class="icon">
-                <i class="fa-brands fa-discord"></i>
+        <!-- Columna Derecha: Widgets de Discord -->
+        <div class="discord-sidebar" style="display: flex; flex-direction: column; gap: 20px;">
+          
+          <!-- Widget 1: El botón original -->
+          <a href="https://discord.gg/BNHeKg7u2U" class="url discord-link" target="_blank" rel="noopener noreferrer" style="width: 100%; display: block;">
+            <div class="link">
+              <h5>Únete a nuestro discord</h5>
+              <div class="link-description">
+                <p class="description">
+                  Información del servidor y comunidad.
+                  <br>-----------
+                  <br><span class="discord-online-users">None</span> usuarios en línea
+                </p>
+                <div class="icon">
+                  <i class="fa-brands fa-discord"></i>
+                </div>
               </div>
             </div>
-          </div>
-        </a>
+          </a>
+
+          <!-- Widget 2: El nuevo iframe oficial de Discord -->
+          <iframe src="https://discord.com/widget?id=1249803735157309500&theme=dark" width="350" height="500" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts" style="border: none; border-radius: 8px; max-width: 100%;"></iframe>
+
+        </div>
+
       </div>
     </div>
   </section>
