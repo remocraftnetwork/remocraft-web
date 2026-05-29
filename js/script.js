@@ -4,114 +4,16 @@ Configuration
 If something doesn't work please contact me on discord (Astronawta#0012).
 */
 
-const config = {
+window.config = window.config || {};
+Object.assign(window.config, {
     serverInfo: {
         serverLogoImageFileName: "logo.png", /*This is a file name for logo in /images/ (If you upload new logo with other name, you must change this value)*/
         serverName: "RemoCraft", /*Server name*/
         serverIp: "play.remocraft.com", /*Server IP / domain for Minecraft server status*/
         discordServerID: "1249803735157309500" /*Your Discord server ID. Set this to your real server ID after enabling the Widget in Discord settings.*/
-    },
-
-    /*Admin-Team
-    ------------
-    If you want to create new group, you must add this structure to adminTeamPage:
-    <nameOfGroup>: [
-        {
-            inGameName: "Astronavta",
-            rank: "Owner",
-            skinUrlOrPathToFile: "",
-            rankColor: ""
-        },
-    ]
-    then you must add this group with same name to atGroupsDefaultColors and set the color you want for the group.
-    You can also set a special color for a specific user, just put it in the rankColor of that user.
-
-    All skins for original players are generate automaticaly. If you want to add skins to warez players, yout must add url for skin to skinUrlOrPathToFile
-        {
-            inGameName: "Astronavta",  <--- In-Game name
-            rank: "Owner",  <-- rank
-            skinUrlOrPathToFile: "",  <-- url or file path for skin image for warez players (if you have original minecraft leave it be empty)
-            rankColor: "rgba(255, 3, 3, 1)"  <-- special rank color
-        },
-
-    If you want to change skin type replace userSKinTypeInAdminTeam with something you want from array in comments
-    */
-    userSKinTypeInAdminTeam: "bust", /*[full, bust, head, face, front, frontFull, skin]*/
-    atGroupsDefaultColors: {
-        leaders: "rgba(255, 124, 124, 0.5)",
-        moderators: "rgba(0, 190, 10, 0.5)",
-        helpers: "rgba(11, 175, 255, 0.5)",
-        builders: "rgba(247, 2, 176, 0.5)",
-    },
-    adminTeamPage: {
-        leaders: [
-            {
-                inGameName: "RemoCraftMC",
-                rank: "Owner",
-                skinUrlOrPathToFile: "",
-                rankColor: "rgba(255, 3, 3, 1)"
-            }
-        ],
-        moderators: [
-            {
-                inGameName: "Zunallein",
-                rank: "Moderator",
-                skinUrlOrPathToFile: "",
-                rankColor: ""
-            },
-            {
-                inGameName: "mojanj",
-                rank: "Moderator",
-                skinUrlOrPathToFile: "",
-                rankColor: ""
-            },
-            {
-                inGameName: "SrSpaghetti",
-                rank: "Moderator",
-                skinUrlOrPathToFile: "",
-                rankColor: ""
-            }
-        ],
-        helpers: [
-            {
-                inGameName: "drex21",
-                rank: "Helper",
-                skinUrlOrPathToFile: "",
-                rankColor: ""
-            },
-            {
-                inGameName: "Gehzt630",
-                rank: "Helper",
-                skinUrlOrPathToFile: "",
-                rankColor: ""
-            },
-            {
-                inGameName: "Nyxxie_",
-                rank: "Helper",
-                skinUrlOrPathToFile: "",
-                rankColor: ""
-            }
-        ],
-        builders: [
-            {
-                inGameName: "AlconNT",
-                rank: "Builder",
-                skinUrlOrPathToFile: "",
-                rankColor: ""
-            }
-        ]
-    },
-
-    /*
-    Contact form
-    ------------
-    To activate, you need to send the first email via the contact form and confirm it in the email.
-    Emails are sent via https://formsubmit.co/
-    */
-    contactPage: {
-        email: "astronavta@example.com"
     }
-}
+});
+const config = window.config;
 
 /*If you want to change website color go to /css/global.css and in :root {} is a color pallete (don't change names of variables, change only values)*/
 
@@ -216,53 +118,6 @@ const getMinecraftOnlinePlayer = async () => {
     }
 }
 
-const getUuidByUsername = async (username) => {
-    try {
-        const ashconUrl = `https://api.ashcon.app/mojang/v2/user/${username}`;
-        let response = await fetch(ashconUrl);
-
-        if (response.ok) {
-            let data = await response.json();
-            if (data && data.uuid) return data.uuid.replace(/-/g, "");
-        }
-
-        // Fallback to PlayerDB if Ashcon returns 404 or fails
-        const playerDbUrl = `https://playerdb.co/api/player/minecraft/${username}`;
-        response = await fetch(playerDbUrl);
-        if (!response.ok) {
-            throw new Error(`UUID fetch failed: ${response.status}`);
-        }
-
-        let data = await response.json();
-        if (data && data.data && data.data.player) {
-            return data.data.player.raw_id || data.data.player.id.replace(/-/g, "");
-        }
-
-        return "None";
-    } catch (e) {
-        console.log(e);
-        return "None";
-    }
-}
-
-const getSkinByUuid = async (username) => {
-    try {
-        const uuid = await getUuidByUsername(username);
-        const fallbackSkin = getAssetPath(`images/skin_not_loaded.png`);
-
-        if (!uuid || uuid === "None") return fallbackSkin;
-
-        const skinByUuidApi = `https://visage.surgeplay.com/${config.userSKinTypeInAdminTeam}/512/${uuid}`;
-        let response = await fetch(skinByUuidApi);
-
-        if (response.status === 400) return fallbackSkin;
-        return skinByUuidApi;
-    } catch (e) {
-        console.log(e);
-        return "None";
-    }
-}
-
 /*IP copy only works if you have HTTPS on your website*/
 const copyIp = () => {
     const copyIpButton = document.querySelector(".copy-ip");
@@ -312,65 +167,6 @@ const setDataFromConfigToHtml = async () => {
         minecraftOnlinePlayers.innerHTML = await getMinecraftOnlinePlayer();
     } else if(locationPathname.includes("rules")) {
         copyIp();
-    }
-    else if(locationPathname.includes("admin-team")) {
-        for (let team in config.adminTeamPage) {
-            const atContent = document.querySelector(".at-content");
-            
-            const group = document.createElement("div");
-            group.classList.add("group");
-            group.classList.add(team);
-
-            const groupSchema = `
-                <h2 class="rank-title">${team.charAt(0).toUpperCase() + team.slice(1)}</h2>
-                <div class="users">
-                </div>
-            `;
-
-            group.innerHTML = groupSchema;
-            atContent.appendChild(group);
-
-            const users = config.adminTeamPage[team];
-            const fallbackSkin = getAssetPath(`images/skin_not_loaded.png`);
-
-            for (let j = 0; j < users.length; j++) {
-                let user = users[j];
-                const currentGroup = group.querySelector(".users");
-
-                const userDiv = document.createElement("div");
-                userDiv.classList.add("user");
-
-                let rankColor = config.atGroupsDefaultColors[team];
-
-                if(user.rankColor != "") {
-                    rankColor = user.rankColor;
-                }
-
-                // Generamos un ID único temporal por usuario para cambiar su skin de forma asíncrona
-                const imgId = `skin-${team}-${j}`;
-
-                const userDivSchema = `
-                    <img id="${imgId}" src="${fallbackSkin}" alt="${user.inGameName}">
-                    <h5 class="name">${user.inGameName}</h5>
-                    <p class="rank ${team}" style="background: ${rankColor}">${user.rank}</p>  
-                `;
-
-                userDiv.innerHTML = userDivSchema;
-                currentGroup.appendChild(userDiv);
-
-                // Carga asíncrona en segundo plano: no bloquea el renderizado visual de la página
-                if (user.skinUrlOrPathToFile) {
-                    document.getElementById(imgId).src = user.skinUrlOrPathToFile;
-                } else {
-                    getSkinByUuid(user.inGameName).then(skin => {
-                        const imgElement = document.getElementById(imgId);
-                        if (imgElement) {
-                            imgElement.src = skin === "None" ? fallbackSkin : skin;
-                        }
-                    });
-                }
-            }
-        }
     } else if(locationPathname.includes("contact")) {
         contactForm.action = `https://formsubmit.co/${config.contactPage.email}`;
         discordOnlineUsers.innerHTML = await getDiscordOnlineUsers();
