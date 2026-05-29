@@ -168,9 +168,13 @@ const setDataFromConfigToHtml = async () => {
     } else if(locationPathname.includes("rules")) {
         copyIp();
     } else if(locationPathname.includes("contact")) {
-        contactForm.action = `https://formsubmit.co/${config.contactPage.email}`;
+        if (contactForm) {
+            contactForm.action = `https://formsubmit.co/${config.contactPage.email}`;
+        }
         discordOnlineUsers.innerHTML = await getDiscordOnlineUsers();
-        inputWithLocationAfterSubmit.value = location.href;
+        if (inputWithLocationAfterSubmit) {
+            inputWithLocationAfterSubmit.value = location.href;
+        }
     }
 }
 

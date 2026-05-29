@@ -69,33 +69,14 @@
       <h2 class="section-title">Formulario de contacto</h2>
 
       <div class="columns">
-        <form class="contact-form" action="" method="POST">
-          <input type="hidden" name="_subject" value="Message From Website">
-          <input type="hidden" name="_template" value="box">
-          <input type="hidden" name="_captcha" value="false">
-          <input type="hidden" name="_next" value="" class="location-after-submit">
-
-          <div class="row">
-            <label for="name">* Usuario (o nombre real)</label>
-            <input type="text" required id="name" name="name" placeholder="TuNombre">
-          </div>
-          <div class="row">
-            <label for="discord-name">Nombre en Discord + tag</label>
-            <input type="text" id="discord-name" name="discord-name" placeholder="Usuario#1234">
-          </div>
-          <div class="row">
-            <label for="email">* Email</label>
-            <input type="email" required id="email" name="email" placeholder="tu@email.com">
-          </div>
-          <div class="row">
-            <label for="message">* Mensaje</label>
-            <textarea required id="message" name="message" placeholder="Tengo una pregunta..."></textarea>
-          </div>
-          <div class="form-footer">
-            <p class="alert">Los campos marcados con * son obligatorios</p>
-            <button type="submit">Enviar mensaje <i class="fa-solid fa-paper-plane"></i></button>
-          </div>
-        </form>
+        <div class="contact-widget" style="padding: 2rem; background: rgba(255,255,255,0.08); border-radius: 16px;">
+          <p class="description" style="margin-bottom: 1.2rem;">
+            Estamos cambiando a un widget de soporte para todas las solicitudes. Haz clic en el icono de chat en la parte inferior derecha para enviarnos un mensaje.
+          </p>
+          <p class="description">
+            Si el widget no aparece de inmediato, espera un momento o recarga la página. Cuando envíes el mensaje, llegará a nuestra bandeja de soporte.
+          </p>
+        </div>
 
         <div class="discord-sidebar" style="display: flex; flex-direction: column; gap: 20px;">
           
@@ -133,4 +114,15 @@
 </body>
 <script src="../js/contact.js"></script>
 <script src="../js/script.js"></script>
+<script type="text/javascript">
+window.$crisp = [];
+window.CRISP_WEBSITE_ID = "e533d558-b6fb-42a4-b7fc-1735ec85355a";
+(function () {
+  const d = document;
+  const s = d.createElement("script");
+  s.src = "https://client.crisp.chat/l.js";
+  s.async = 1;
+  d.getElementsByTagName("head")[0].appendChild(s);
+})();
+</script>
 </html>
