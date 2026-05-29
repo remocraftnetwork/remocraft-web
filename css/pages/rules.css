@@ -136,6 +136,14 @@
     background: var(--main-color);
 }
 
+/* Paragraphs inside rules should match the site's description color */
+#rules .content p,
+#rules .rules p {
+    color: var(--description-color);
+    font-size: 17px;
+    line-height: 1.6;
+}
+
 #rules .rules .rules-list {
     display: flex;
     flex-direction: column;
