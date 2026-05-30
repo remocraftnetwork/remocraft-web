@@ -2,7 +2,7 @@ name: Generate announcements JSON
 
 on:
   issues:
-    types: [opened, edited, labeled, unlabeled, closed, reopened]
+    types: [labeled, unlabeled]
 
 jobs:
   build-json:
