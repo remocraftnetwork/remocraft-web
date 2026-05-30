@@ -471,10 +471,12 @@
 
 #vote .content .links {
     display: grid;
-    grid-template-columns: repeat(4, minmax(180px, 1fr));
+    /* adapt columns to available space, min card width 220px */
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 30px;
     align-items: stretch;
     width: 100%;
+    justify-content: center;
 }
 
 #vote .content .links .url {
@@ -496,6 +498,8 @@
     border-radius: 8px;
     height: 100%;
     min-height: 140px;
+    max-width: 420px;
+    margin: 0 auto; /* center smaller cards */
 }
 
 #vote .content .links .link h5 {
@@ -827,18 +831,24 @@
 }
 
 @media screen and (max-width: 909px) {
-    #vote .content .links {
-        flex-wrap: wrap;
-        flex-direction: row;
-    }
-
-    #vote .content .links .link {
-        max-width: 300px;
-    }
-
+    /* Stack content vertically and force 1 column for vote links on mobile/small screens */
     #vote .content {
         flex-direction: column;
         gap: 40px;
+    }
+
+    #vote .content .info {
+        max-width: 100%;
+        flex: 1 1 100%;
+    }
+
+    #vote .content .links {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    #vote .content .links .link {
+        max-width: 100%;
     }
 }
 
