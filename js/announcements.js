@@ -79,7 +79,12 @@ function renderPage() {
     nextBtn.disabled = (start + perPage) >= announcements.length;
     if (pageInfo) {
         const totalPages = Math.max(1, Math.ceil(announcements.length / perPage));
-        pageInfo.textContent = getText(`Page ${currentPage + 1} of ${totalPages}`, `Página ${currentPage + 1} de ${totalPages}`);
+        const pageStart = start + 1;
+        const pageEnd = Math.min(start + perPage, announcements.length);
+        pageInfo.textContent = getText(
+            `Page ${currentPage + 1} of ${totalPages} · Showing ${pageStart}-${pageEnd} of ${announcements.length}`,
+            `Página ${currentPage + 1} de ${totalPages} · Mostrando ${pageStart}-${pageEnd} de ${announcements.length}`
+        );
     }
 }
 
