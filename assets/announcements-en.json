@@ -1,5 +1,18 @@
 [
   {
+    "number": 21,
+    "title": "babababba",
+    "body": "bababababbaa",
+    "url": "https://github.com/RemoCraft/remocraft-web/issues/21",
+    "created_at": "2026-05-30T15:18:53Z",
+    "updated_at": "2026-05-30T15:18:53Z",
+    "state": "open",
+    "author": "ivanremoenunlago",
+    "labels": [
+      "announcement-en"
+    ]
+  },
+  {
     "number": 19,
     "title": "sdsd",
     "body": "sdsds",
