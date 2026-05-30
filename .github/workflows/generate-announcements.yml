@@ -69,29 +69,30 @@ jobs:
             console.log(`Wrote ${en.length} English and ${es.length} Spanish announcements to /assets/`);
 
       - name: Notify Discord announcement channel (English)
-        if: github.event.issue && contains(github.event.issue.labels.*.name, 'announcement-en')
+        if: github.event.issue && (github.event.action == 'opened' || github.event.action == 'labeled') && contains(join(github.event.issue.labels.*.name, ' '), 'announcement-en')
         uses: actions/github-script@v7
         with:
           script: |
             const issue = context.payload.issue || {};
             const webhookUrl = process.env.WEBHOOK_DISCORD_ANNOUNCEMENTS_EN;
+            console.log('Discord notification step running for issue', issue.number, 'labels:', (issue.labels || []).map(l => typeof l === 'string' ? l : l.name));
             if (!webhookUrl) throw new Error('Missing Discord webhook secret WEBHOOK_DISCORD_ANNOUNCEMENTS_EN');
 
             const embed = {
               title: issue.title || 'New English announcement',
               description: (issue.body || 'No description provided.').slice(0, 2048),
               url: issue.html_url,
-              author: { name: issue.user?.login || 'unknown' },
+              // author: { name: issue.user?.login || 'unknown' },
+              author: { name: 'RemoCraft Announcements' },
               color: 5814783,
               footer: { text: 'announcement-en' },
               timestamp: issue.created_at
             };
 
-            await github.rest.request({
+            const response = await fetch(webhookUrl, {
               method: 'POST',
-              url: webhookUrl,
               headers: { 'content-type': 'application/json' },
-              data: {
+              body: JSON.stringify({
                 username: 'RemoCraft Announcements',
                 content: '<@&1348382542343966800>',
                 embeds: [embed],
@@ -99,8 +100,13 @@ jobs:
                   parse: ['roles'],
                   roles: ['1348382542343966800']
                 }
-              }
+              })
             });
+
+            if (!response.ok) {
+              const text = await response.text();
+              throw new Error(`Discord webhook returned ${response.status}: ${text}`);
+            }
         env:
           WEBHOOK_DISCORD_ANNOUNCEMENTS_EN: ${{ secrets.WEBHOOK_DISCORD_ANNOUNCEMENTS_EN }}
 
