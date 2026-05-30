@@ -111,6 +111,64 @@ jobs:
         env:
           WEBHOOK_DISCORD_ANNOUNCEMENTS_EN: ${{ secrets.WEBHOOK_DISCORD_ANNOUNCEMENTS_EN }}
 
+      - name: Notify Discord announcement channel (Spanish)
+        if: github.event.issue && github.event.action == 'labeled' && github.event.label.name == 'announcement-es'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const issue = context.payload.issue || {};
+            const webhookUrl = process.env.WEBHOOK_DISCORD_ANNOUNCEMENTS_ES;
+            
+            console.log('=== Spanish Discord Notification ===');
+            console.log('Issue number:', issue.number);
+            console.log('Action:', context.payload.action);
+            console.log('Label added:', context.payload.label?.name);
+            console.log('All issue labels:', (issue.labels || []).map(l => typeof l === 'string' ? l : l.name));
+            console.log('Webhook URL exists:', !!webhookUrl);
+            console.log('Webhook URL length:', webhookUrl ? webhookUrl.length : 0);
+            
+            if (!webhookUrl) {
+              throw new Error('Missing Discord webhook secret WEBHOOK_DISCORD_ANNOUNCEMENTS_ES');
+            }
+
+            const announcementsPage = 'https://www.remocraft.com/es/announcements.html';
+            const announcementRole = '<@&1313639777886666793>';
+            const body = (issue.body || 'No description provided.').trim().slice(0, 3960);
+            const embed = {
+              title: issue.title || 'Nuevo anuncio en español',
+              description: `${body}\n\n${announcementRole}`,
+              url: announcementsPage,
+              color: 5814783,
+              timestamp: issue.created_at
+            };
+
+            console.log('Sending embed:', JSON.stringify(embed, null, 2));
+
+            const response = await fetch(webhookUrl, {
+              method: 'POST',
+              headers: { 'content-type': 'application/json' },
+              body: JSON.stringify({
+                username: 'RemoCraft Announcements',
+                content: '',
+                embeds: [embed],
+                allowed_mentions: {
+                  roles: ['1313639777886666793']
+                }
+              })
+            });
+
+            console.log('Response status:', response.status);
+            
+            if (!response.ok) {
+              const text = await response.text();
+              console.error('Error response:', text);
+              throw new Error(`Discord webhook returned ${response.status}: ${text}`);
+            }
+            
+            console.log('Discord notification sent successfully');
+        env:
+          WEBHOOK_DISCORD_ANNOUNCEMENTS_ES: ${{ secrets.WEBHOOK_DISCORD_ANNOUNCEMENTS_ES }}
+
       - name: Commit and push changes (if any)
         run: |
           git config user.name "github-actions[bot]"
