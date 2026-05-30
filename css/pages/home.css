@@ -831,7 +831,7 @@
 }
 
 @media screen and (max-width: 909px) {
-    /* Stack content vertically and force 1 column for vote links on small screens */
+    /* Stack content vertically and force 1 column for vote links on mobile/small screens */
     #vote .content {
         flex-direction: column;
         gap: 40px;
