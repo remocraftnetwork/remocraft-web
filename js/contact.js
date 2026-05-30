@@ -1,7 +1,7 @@
 window.config = window.config || {};
 Object.assign(window.config, {
     contactPage: {
-        email: "remocraftnetworksup@gmail.com"
+        email: "support@remocraft.com"
     }
 });
 
