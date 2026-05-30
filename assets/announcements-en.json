@@ -1,5 +1,18 @@
 [
   {
+    "number": 30,
+    "title": "pepito clavo",
+    "body": "un clavito",
+    "url": "https://github.com/RemoCraft/remocraft-web/issues/30",
+    "created_at": "2026-05-30T15:53:30Z",
+    "updated_at": "2026-05-30T15:53:30Z",
+    "state": "open",
+    "author": "RemoCraft Announcements",
+    "labels": [
+      "announcement-en"
+    ]
+  },
+  {
     "number": 27,
     "title": "ababa",
     "body": "cvcvcvcvc",
