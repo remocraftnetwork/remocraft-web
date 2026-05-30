@@ -1,5 +1,18 @@
 [
   {
+    "number": 26,
+    "title": "dfdf",
+    "body": "dfdfdf",
+    "url": "https://github.com/RemoCraft/remocraft-web/issues/26",
+    "created_at": "2026-05-30T15:40:14Z",
+    "updated_at": "2026-05-30T15:40:14Z",
+    "state": "open",
+    "author": "RemoCraft Announcements",
+    "labels": [
+      "announcement-en"
+    ]
+  },
+  {
     "number": 25,
     "title": "bbb",
     "body": "bbbb",
