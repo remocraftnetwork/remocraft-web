@@ -9,6 +9,7 @@ const statusMessage = document.getElementById('status');
 const pagination = document.getElementById('pagination');
 const prevBtn = document.getElementById('prevBtn');
 const nextBtn = document.getElementById('nextBtn');
+const pageInfo = document.getElementById('pageInfo');
 
 const getText = (enText, esText) => locale === 'es' ? esText : enText;
 
@@ -57,18 +58,18 @@ function renderPage() {
         const title = document.createElement('h2');
         title.textContent = a.title || `${getText('Announcement', 'Anuncio')} #${a.number || (start + idx + 1)}`;
 
-        const meta = document.createElement('div');
-        meta.className = 'announcement-meta';
-        const date = a.created_at ? new Date(a.created_at).toLocaleString(locale === 'es' ? 'es-ES' : 'en-US') : '';
-        meta.textContent = `${date}${date ? ' · ' : ''}${a.author || getText('unknown', 'desconocido')}`;
-
         const content = document.createElement('div');
         content.className = 'announcement-body';
         content.innerHTML = marked.parse(a.body || '');
 
+        const meta = document.createElement('div');
+        meta.className = 'announcement-meta';
+        const date = a.created_at ? new Date(a.created_at).toLocaleString(locale === 'es' ? 'es-ES' : 'en-US') : '';
+        meta.textContent = date;
+
         card.appendChild(title);
-        card.appendChild(meta);
         card.appendChild(content);
+        if (date) card.appendChild(meta);
         announcementsList.appendChild(card);
 
         requestAnimationFrame(() => card.classList.add('show'));
@@ -76,6 +77,10 @@ function renderPage() {
 
     prevBtn.disabled = currentPage === 0;
     nextBtn.disabled = (start + perPage) >= announcements.length;
+    if (pageInfo) {
+        const totalPages = Math.max(1, Math.ceil(announcements.length / perPage));
+        pageInfo.textContent = getText(`Page ${currentPage + 1} of ${totalPages}`, `Página ${currentPage + 1} de ${totalPages}`);
+    }
 }
 
 prevBtn.addEventListener('click', () => {
