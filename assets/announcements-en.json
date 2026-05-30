@@ -1,5 +1,18 @@
 [
   {
+    "number": 14,
+    "title": "🚨🛠️ **IMPORTANT NOTICE – CRAFTING & JOBS BUG** 🛠️🚨",
+    "body": "We have discovered a **bug related to crafting and jobs**.\n\nCurrently, the **money and experience gained from crafting items are not working correctly**.\nWe are already investigating the issue and working on a fix.\n\n⚠️ **Important recommendation:**\n- Especially for **blacksmith-related jobs** (which are the most affected),\n- Please **DO NOT craft items during the next few days**, until further notice.\n\nWe will announce it as soon as it is fixed. Thank you for your patience.\n\n────────────────────────\n⚠️❗ **VERY IMPORTANT REMINDER** ❗⚠️\n────────────────────────\nPlease remember to **remove all custom enchantments** from your items **gradually over the course of this month**.\n\n🚨 If you keep items with custom enchantments in your **inventory or ender chest**, there is a **risk of losing your entire inventory** during future migrations or updates.\n\nDo it calmly, but **do not ignore this**.  \nIf you are not sure whether an enchantment is custom, ask or open a ticket.\n\nThank you for your patience and cooperation ❤️",
+    "url": "https://github.com/RemoCraft/remocraft-web/issues/14",
+    "created_at": "2026-05-30T14:04:09Z",
+    "updated_at": "2026-05-30T14:04:09Z",
+    "state": "open",
+    "author": "ivanremoenunlago",
+    "labels": [
+      "announcement-en"
+    ]
+  },
+  {
     "number": 13,
     "title": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
     "body": "🚨🛠️ **IMPORTANT NOTICE – CRAFTING & JOBS BUG** 🛠️🚨\n\nWe have discovered a **bug related to crafting and jobs**.\n\nCurrently, the **money and experience gained from crafting items are not working correctly**.\nWe are already investigating the issue and working on a fix.\n\n⚠️ **Important recommendation:**\n- Especially for **blacksmith-related jobs** (which are the most affected),\n- Please **DO NOT craft items during the next few days**, until further notice.\n\nWe will announce it as soon as it is fixed. Thank you for your patience.\n\n────────────────────────\n⚠️❗ **VERY IMPORTANT REMINDER** ❗⚠️\n────────────────────────\nPlease remember to **remove all custom enchantments** from your items **gradually over the course of this month**.\n\n🚨 If you keep items with custom enchantments in your **inventory or ender chest**, there is a **risk of losing your entire inventory** during future migrations or updates.\n\nDo it calmly, but **do not ignore this**.  \nIf you are not sure whether an enchantment is custom, ask or open a ticket.\n\nThank you for your patience and cooperation ❤️",
