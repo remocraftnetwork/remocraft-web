@@ -1,5 +1,18 @@
 [
   {
+    "number": 13,
+    "title": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "body": "🚨🛠️ **IMPORTANT NOTICE – CRAFTING & JOBS BUG** 🛠️🚨\n\nWe have discovered a **bug related to crafting and jobs**.\n\nCurrently, the **money and experience gained from crafting items are not working correctly**.\nWe are already investigating the issue and working on a fix.\n\n⚠️ **Important recommendation:**\n- Especially for **blacksmith-related jobs** (which are the most affected),\n- Please **DO NOT craft items during the next few days**, until further notice.\n\nWe will announce it as soon as it is fixed. Thank you for your patience.\n\n────────────────────────\n⚠️❗ **VERY IMPORTANT REMINDER** ❗⚠️\n────────────────────────\nPlease remember to **remove all custom enchantments** from your items **gradually over the course of this month**.\n\n🚨 If you keep items with custom enchantments in your **inventory or ender chest**, there is a **risk of losing your entire inventory** during future migrations or updates.\n\nDo it calmly, but **do not ignore this**.  \nIf you are not sure whether an enchantment is custom, ask or open a ticket.\n\nThank you for your patience and cooperation ❤️",
+    "url": "https://github.com/RemoCraft/remocraft-web/issues/13",
+    "created_at": "2026-05-30T14:01:14Z",
+    "updated_at": "2026-05-30T14:01:24Z",
+    "state": "open",
+    "author": "ivanremoenunlago",
+    "labels": [
+      "announcement-en"
+    ]
+  },
+  {
     "number": 11,
     "title": "Prueba 2",
     "body": "🔮✨ **Enchant Plugin Migration Completed** ✨🔮\n\nWe have successfully migrated the **enchants plugin** and also replaced the plugin responsible for **inventory, XP, health, achievements, and data synchronization** with a newer, more stable one that receives active updates and should prevent the issues we’ve had recently.\n\nIf you notice any new bugs, please open a ticket to report them.\n\nWe also believe we’ve fixed the issue where the **Blacksmith job was giving less money when crafting**.  \nMoney is now given **instantly** (it no longer appears in chat).\n\n────────────────────────\n⚡ **New Enchant System**\n────────────────────────\n\nEnchants now work using **charges**:\n\n• By doing **Shift + right-click**, you refill charges.  \n• Each charge costs **10 XP**.  \n• If you place the enchanted item in an **anvil** and “repair” it using an **experience bottle**, it will recharge charges directly (more efficient), up to a maximum of **100 charges**.\n\nWe’ll keep monitoring everything closely.  \nThanks for your patience 💛",
