@@ -1,5 +1,18 @@
 [
   {
+    "number": 25,
+    "title": "bbb",
+    "body": "bbbb",
+    "url": "https://github.com/RemoCraft/remocraft-web/issues/25",
+    "created_at": "2026-05-30T15:39:54Z",
+    "updated_at": "2026-05-30T15:39:54Z",
+    "state": "open",
+    "author": "RemoCraft Announcements",
+    "labels": [
+      "announcement-en"
+    ]
+  },
+  {
     "number": 23,
     "title": "aaaaaaaaaa",
     "body": "# ⚙️ Funcionalidades de Jobs reañadidas ⚙️\n\nHemos reintroducido varias mecánicas de jobs que no estaban funcionando correctamente:\n\n---\n\n## ⛏️ Minero\n\n• `/haste` vuelve a funcionar en **nivel 10**  \n→ A nivel máximo: **30 minutos de duración** con **1h de cooldown**\n\n• `/night_vision` vuelve a funcionar en **nivel 25**  \n→ A nivel máximo: **30 minutos de duración** con **1h de cooldown**\n\n---\n\n## 🌲 Leñador\n\n• Recupera la habilidad de **regenerar vida al talar árboles** en **nivel 25**\n\n---\n\n## 🌾 Agricultor\n\n• Recupera la habilidad de **terraformar tierra** en **nivel 25**:\n\n→ Semillas → convierte en **césped**  \n→ Setas → convierte en **micelio**  \n→ Tinte marrón / cocoa beans → convierte en **podzol**  \n→ 🆕 Beetroot seeds → convierte en **tierra enraizada**\n\n---\n\n## ✨ Enchanter\n\n• Puede volver a crear **botellas de XP** (consume 25 de XP) en **nivel 25**  \n→ Clic derecho en la mesa de encantamientos\n\n---\n\n## 💎 Sistema de Slots de Encantamientos (REWORK)\n\nEl sistema ha sido completamente rediseñado:\n\n### 📍 Cómo usarlo\n\n• Clic derecho en una **mesa de encantamientos**  \n• Estar **agachado (Shift)**  \n• Tener un **Corazón del Mar** en la mano  \n\n---\n\n### ⚙️ Sistema de costes\n\n• El coste depende de tu nivel actual  \n• Siempre se redondea a múltiplos de 50  \n\nEjemplos:\n• Nivel 130 → paga 100  \n• Mínimo: 50 niveles  \n• Máximo: 500 niveles  \n\n---\n\n### 🎲 Riesgo vs Recompensa\n\n• Riesgo base = coste ÷ 10  \n→ 50 niveles = 5% riesgo  \n→ 500 niveles = 50% riesgo  \n\n#### 🔻 Reducción de riesgo\n\n• Efecto de suerte (Luck): -5% por nivel  \n• AuraSkills Luck: -0.2% por punto  \n\n---\n\n### 🎁 Recompensa\n\n• Si tiene éxito → recibes un **ítem para aumentar los slots de encantamientos**  \n• Cuanto mayor sea el coste, mayor será la recompensa  \n\n---\n\n### ⚠️ Resultados posibles\n\n✅ **Éxito**  \n• Pierdes niveles + Corazón del Mar  \n• Recibes el ítem de mejora de slots  \n• Efecto visual positivo  \n\n❌ **Fallo**  \n• Pierdes niveles + Corazón del Mar  \n• La mesa de encantamientos **explota** 💥  \n• Tendrás que colocar una nueva  \n\n---\n\n## 🛠️ Otros cambios\n\n• Algunos mensajes de `/jobs` han sido corregidos  \n\n---\n\n## ⚠️ En progreso\n\nSeguimos trabajando activamente en:\n\n• Problemas con **crafteos**  \n• **Traducciones**  \n• Ítems de **XP que no funcionan correctamente**\n\n🙏 Nos está llevando bastante tiempo, pero lo solucionaremos.  \nLamentamos las molestias.\n\n💚 Gracias por vuestra paciencia",
