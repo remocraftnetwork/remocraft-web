@@ -118,8 +118,18 @@ jobs:
           script: |
             const issue = context.payload.issue || {};
             const webhookUrl = process.env.WEBHOOK_DISCORD_ANNOUNCEMENTS_ES;
-            console.log('Discord notification step running for issue', issue.number, 'action:', context.payload.action, 'label:', context.payload.label?.name, 'labels:', (issue.labels || []).map(l => typeof l === 'string' ? l : l.name));
-            if (!webhookUrl) throw new Error('Missing Discord webhook secret WEBHOOK_DISCORD_ANNOUNCEMENTS_ES');
+            
+            console.log('=== Spanish Discord Notification ===');
+            console.log('Issue number:', issue.number);
+            console.log('Action:', context.payload.action);
+            console.log('Label added:', context.payload.label?.name);
+            console.log('All issue labels:', (issue.labels || []).map(l => typeof l === 'string' ? l : l.name));
+            console.log('Webhook URL exists:', !!webhookUrl);
+            console.log('Webhook URL length:', webhookUrl ? webhookUrl.length : 0);
+            
+            if (!webhookUrl) {
+              throw new Error('Missing Discord webhook secret WEBHOOK_DISCORD_ANNOUNCEMENTS_ES');
+            }
 
             const announcementsPage = 'https://www.remocraft.com/es/announcements.html';
             const announcementRole = '<@&1313639777886666793>';
@@ -131,6 +141,8 @@ jobs:
               color: 5814783,
               timestamp: issue.created_at
             };
+
+            console.log('Sending embed:', JSON.stringify(embed, null, 2));
 
             const response = await fetch(webhookUrl, {
               method: 'POST',
@@ -145,10 +157,15 @@ jobs:
               })
             });
 
+            console.log('Response status:', response.status);
+            
             if (!response.ok) {
               const text = await response.text();
+              console.error('Error response:', text);
               throw new Error(`Discord webhook returned ${response.status}: ${text}`);
             }
+            
+            console.log('Discord notification sent successfully');
         env:
           WEBHOOK_DISCORD_ANNOUNCEMENTS_ES: ${{ secrets.WEBHOOK_DISCORD_ANNOUNCEMENTS_ES }}
 
