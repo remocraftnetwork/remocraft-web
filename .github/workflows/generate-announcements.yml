@@ -53,7 +53,7 @@ jobs:
                 created_at: issue.created_at,
                 updated_at: issue.updated_at,
                 state: issue.state,
-                author: issue.user ? issue.user.login : null,
+                author: 'RemoCraft Announcements',
                 labels: (issue.labels || []).map(l => (typeof l === 'string' ? l : l.name))
               }));
               return items;
@@ -80,14 +80,14 @@ jobs:
             console.log('Discord notification step running for issue', issue.number, 'action:', context.payload.action, 'label:', context.payload.label?.name, 'labels:', (issue.labels || []).map(l => typeof l === 'string' ? l : l.name));
             if (!webhookUrl) throw new Error('Missing Discord webhook secret WEBHOOK_DISCORD_ANNOUNCEMENTS_EN');
 
+            const announcementsPage = 'https://www.remocraft.com/announcements.html';
+            const announcementRole = '<@&1348382542343966800>';
+            const body = (issue.body || 'No description provided.').trim().slice(0, 3960);
             const embed = {
               title: issue.title || 'New English announcement',
-              description: (issue.body || 'No description provided.').slice(0, 2048),
-              url: issue.html_url,
-              // author: { name: issue.user?.login || 'unknown' },
-              author: { name: 'RemoCraft Announcements' },
+              description: `${body}\n\n${announcementRole}`,
+              url: announcementsPage,
               color: 5814783,
-              footer: { text: 'announcement-en' },
               timestamp: issue.created_at
             };
 
@@ -96,7 +96,7 @@ jobs:
               headers: { 'content-type': 'application/json' },
               body: JSON.stringify({
                 username: 'RemoCraft Announcements',
-                content: '<@&1348382542343966800>',
+                content: '',
                 embeds: [embed],
                 allowed_mentions: {
                   roles: ['1348382542343966800']
