@@ -1,0 +1,139 @@
+/* Announcements page styles */
+
+#header {
+    background: url("../../images/header-background.jpg") no-repeat fixed center;
+    min-width: 100%;
+    min-height: 400px;
+    height: 30vh;
+    background-size: cover;
+    z-index: 0;
+    display: flex;
+    align-items: center;
+}
+
+#header .content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 150px;
+    width: 100%;
+}
+
+#header .content .info {
+    display: flex;
+    flex-direction: column;
+}
+
+#header .content .info .minecraft-server-ip {
+    color: var(--white-color);
+    text-transform: uppercase;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+#header .content .info .title {
+    color: var(--white-color);
+    text-transform: uppercase;
+    font-size: 60px;
+    font-weight: 900;
+}
+
+#header .content .info .title span {
+    color: var(--main-color);
+}
+
+#header .content .description {
+    color: var(--description-color);
+    font-size: 18px;
+    font-weight: 400;
+    max-width: 700px;
+    line-height: 1.6;
+}
+
+#announcements .content {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.announcements-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.announcement-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 24px;
+    border-radius: 18px;
+    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.35);
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.24s ease, transform 0.24s ease;
+}
+
+.announcement-card.show {
+    opacity: 1;
+    transform: none;
+}
+
+.announcement-card h2 {
+    margin: 0;
+    font-size: 24px;
+    color: var(--main-color);
+}
+
+.announcement-meta {
+    color: var(--description-color);
+    font-size: 14px;
+    margin: 12px 0 18px;
+}
+
+.announcement-body {
+    color: var(--description-color);
+    line-height: 1.8;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.mc-btn {
+    background: linear-gradient(180deg, #2b2b2b, #1b1b1b);
+    border: 2px solid rgba(255, 255, 255, 0.06);
+    color: #fff;
+    padding: 12px 22px;
+    border-radius: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+}
+
+.mc-btn:hover:not(:disabled) {
+    opacity: 0.85;
+}
+
+.mc-btn[disabled] {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.status-message {
+    text-align: center;
+    color: var(--description-color);
+    margin: 20px 0;
+}
+
+@media screen and (max-width: 867px) {
+    #header .content {
+        padding: 90px 30px;
+    }
+
+    .announcement-card {
+        padding: 20px;
+    }
+}
