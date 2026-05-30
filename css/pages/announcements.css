@@ -99,7 +99,14 @@
     display: flex;
     justify-content: center;
     gap: 12px;
+    align-items: center;
     flex-wrap: wrap;
+}
+
+.page-info {
+    color: var(--white-color);
+    font-weight: 700;
+    font-size: 14px;
 }
 
 .mc-btn {
